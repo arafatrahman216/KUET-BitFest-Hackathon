@@ -18,5 +18,6 @@ router.use(limiter);
 
 // Version 1 routes
 router.post('/v1/addingradient', ingredientController.addIngredientGradient);
+router.get('/v1/getingredients', ingredientController.getIngredients);
 
 module.exports = router;

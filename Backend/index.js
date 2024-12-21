@@ -6,6 +6,7 @@ const { query, validationResult, body } = require('express-validator');
 const axios = require('axios');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const client = require('./db/db.js');
 
 const ingredientRoutes = require('./route/ingredient');
 
@@ -14,7 +15,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(bodyParser.json());
 
-const client = require('./db/db.js');
 
 
 // Use the ingredient routes
