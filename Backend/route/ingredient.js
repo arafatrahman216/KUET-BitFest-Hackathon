@@ -17,6 +17,6 @@ const limiter = rateLimit({
 router.use(limiter);
 
 // Version 1 routes
-router.post('/v1/input-gradient', ingredientController.addIngredientGradient);
+router.post('/v1/addingradient', ingredientController.addIngredientGradient);
 
 module.exports = router;

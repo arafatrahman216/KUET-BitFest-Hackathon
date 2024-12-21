@@ -20,16 +20,6 @@ const client = require('./db/db.js');
 // Use the ingredient routes
 app.use('/api', ingredientRoutes);
 
-// Global error handling middleware
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({
-        status: 'error',
-        message: 'Something broke!',
-        error: process.env.NODE_ENV === 'development' ? err.message : {}
-    });
-});
-
 // Handle 404 routes
 app.use((req, res) => {
     res.status(404).json({
