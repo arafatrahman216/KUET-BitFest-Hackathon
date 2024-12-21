@@ -7,6 +7,7 @@ const axios = require('axios');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
+const ingredientRoutes = require('./route/ingredient');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -15,22 +16,26 @@ app.use(bodyParser.json());
 
 const client = require('./db/db.js');
 
-const getRecipes = async () => {
-  try {
-    const res = await client.query('SELECT * FROM Recipes');
-    return res.rows;
-  } catch (err) {
-    console.error('Error executing query', err.stack);
-    return [];
-  }
-};
 
+// Use the ingredient routes
+app.use('/api', ingredientRoutes);
 
+// Global error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({
+        status: 'error',
+        message: 'Something broke!',
+        error: process.env.NODE_ENV === 'development' ? err.message : {}
+    });
+});
 
-
-app.get('/', (req, res) => {
-    getRecipes();
-    res.send('Hello, Express!');
+// Handle 404 routes
+app.use((req, res) => {
+    res.status(404).json({
+        status: 'error',
+        message: 'Route not found'
+    });
 });
 
 app.get('/recipes', async (req, res) => {
