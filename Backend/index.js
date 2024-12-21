@@ -14,8 +14,28 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 
-app.get('/', (req, res) => {
-    res.send('Hello, Express!');
+app.post('/input-gradient', (req, res) => {
+    
+    // Extract data from request body
+    const { ingredient_name, quantity, unit } = req.body;
+    console.log(req.body);
+
+    // Print the data (as requested)
+    console.log({
+        ingredient_name,
+        quantity,
+        unit
+    });
+
+    // Send success response
+    res.status(200).json({
+        message: 'Ingredient data received',
+        data: {
+            ingredient_name,
+            quantity,
+            unit
+        }
+    });
 });
 
 // Start the Server
