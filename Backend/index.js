@@ -7,34 +7,31 @@ const axios = require('axios');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
+const ingredientRoutes = require('./route/ingredient');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(bodyParser.json());
 
+// Use the ingredient routes
+app.use('/api', ingredientRoutes);
 
-app.post('/input-gradient', (req, res) => {
-    
-    // Extract data from request body
-    const { ingredient_name, quantity, unit } = req.body;
-    console.log(req.body);
-
-    // Print the data (as requested)
-    console.log({
-        ingredient_name,
-        quantity,
-        unit
+// Global error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({
+        status: 'error',
+        message: 'Something broke!',
+        error: process.env.NODE_ENV === 'development' ? err.message : {}
     });
+});
 
-    // Send success response
-    res.status(200).json({
-        message: 'Ingredient data received',
-        data: {
-            ingredient_name,
-            quantity,
-            unit
-        }
+// Handle 404 routes
+app.use((req, res) => {
+    res.status(404).json({
+        status: 'error',
+        message: 'Route not found'
     });
 });
 
