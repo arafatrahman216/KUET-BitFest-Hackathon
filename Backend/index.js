@@ -6,6 +6,7 @@ const { query, validationResult, body } = require('express-validator');
 const axios = require('axios');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const client = require('./db/db.js');
 
 const ingredientRoutes = require('./route/ingredient');
 const updateingredientRoutes = require('./route/updateingredient');
@@ -26,6 +27,14 @@ app.use((req, res) => {
         message: 'Route not found'
     });
 });
+
+app.get('/recipes', async (req, res) => {
+    const recipes = await getRecipes();
+    res.json(recipes);
+
+});
+
+
 
 // Start the Server
 app.listen(PORT, () => {
