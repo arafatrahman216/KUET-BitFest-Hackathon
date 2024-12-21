@@ -1,4 +1,5 @@
 const express = require('express');
+import Groq from "groq-sdk";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -7,6 +8,7 @@ const axios = require('axios');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const client = require('./db/db.js');
+const { getRecipes } = require('./middleware/Recipes');
 
 const ingredientRoutes = require('./route/ingredient');
 const updateingredientRoutes = require('./route/updateingredient');
@@ -20,6 +22,11 @@ app.use(bodyParser.json());
 app.use('/api', ingredientRoutes);
 app.use('/api', updateingredientRoutes);
 
+app.get('/recipes', async (req, res) => {
+    const recipes = await getRecipes();
+    res.json(recipes);
+
+});
 // Handle 404 routes
 app.use((req, res) => {
     res.status(404).json({
@@ -28,11 +35,6 @@ app.use((req, res) => {
     });
 });
 
-app.get('/recipes', async (req, res) => {
-    const recipes = await getRecipes();
-    res.json(recipes);
-
-});
 
 
 

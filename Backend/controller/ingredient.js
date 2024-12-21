@@ -1,4 +1,6 @@
 const { getRecipes } = require('../middleware/Recipes');
+const db = require('../db/db');
+
 
 const ingredientController = {
     // POST Method: Add Ingredient
@@ -32,7 +34,8 @@ const ingredientController = {
     getIngredients: async (req, res) => {
         try {
             // Simulate fetching data from the database
-            const ingredients = await getRecipes();
+            const result = await db.query('SELECT * FROM Ingredients');
+            const ingredients = result;
 
             // Send success response with data
             res.status(200).json({
