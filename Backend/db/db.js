@@ -1,5 +1,5 @@
 const { Client } = require('pg');
-require('../../dotenv').config();
+require('dotenv').config();
 
 // Configure the PostgreSQL connection
 const client = new Client({
